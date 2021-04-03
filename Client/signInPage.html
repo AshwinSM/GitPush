@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <meta charset="utf-8" /> -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src https://unpkg.com/axios/dist/axios.min.js; child-src 'none'; object-src 'none'"> -->
+        <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  -->
+        <script type="text/javascript" src="/axios.min.js"></script>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://unpkg.com/axios/dist/axios.min.js">
+        <script type="text/javascript"  src="./signInPage.js" ></script>
+        <link rel="stylesheet" href="./signInPage.css">
+    </head>
+    <body>
+        <div class="outerWidth">
+        <header>
+            <img src="./../Images/logo.png" class="signInHeader"/> 
+        </header>
+        <div>
+            <!-- <button class="signInButton" onclick="signIn()"> <img src="githubIcon.png" class="signInButtonImg" /><span>SignIn With GitHub</span></button> -->
+            <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button id="signInButton" class="signInButton"><span>SignIn With GitHub</span></button></a>
+            <!-- <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button class="signInButton" > <img src="./../Images/githubIcon.png" class="signInButtonImg" /><span>SignIn With GitHub</span></button></a> -->
+        </div>
+        <footer></footer>
+        </div>
+    </body>
+</html>

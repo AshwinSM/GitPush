@@ -1,0 +1,26 @@
+{
+    "name": "GitPush",
+    "description": "Extension for pushing code to GIT repo on the go",
+    "version": "1.0",
+    "manifest_version": 2,
+    "content_scripts" : [
+        {
+            "matches":[
+                "http://localhost:3000/user/callback?*"
+            ],
+            "js":["content.js"]
+        }
+    ],
+    "background": {
+        "scripts":["background.js","axios.min.js"]
+    },
+    "permissions": ["storage"],
+    "browser_action": {
+        "default_icon": {
+            "16": "/Images/plainLogo.png",
+            "32": "/Images/plainLogo.png",
+            "48": "/Images/plainLogo.png",
+            "128": "/Images/plainLogo.png"
+          }
+    }
+  }

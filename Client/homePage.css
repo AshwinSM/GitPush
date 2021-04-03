@@ -1,0 +1,10 @@
+.selectClass {
+    width: 250px;
+    height: 25px;
+    display: block;
+}
+
+.labelClass {
+    display: block;
+    margin-top: 10px;
+}

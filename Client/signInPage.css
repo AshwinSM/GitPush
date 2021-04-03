@@ -1,0 +1,20 @@
+.signInHeader {
+    height : 50%;
+    width : 50%;
+}
+
+.signInButtonImg {
+    height : 10%;
+    width : 20%;
+}
+
+.signInButton {
+    background-color : black;
+    color: white;
+    text-align: center;
+}
+
+.outerWidth{
+    width: 300px; 
+    height: 400px;
+}
