@@ -30,27 +30,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const getDirectories = async function(repo) {
   try {
-    chrome.storage.sync.get(["access_token"],(data)=>{
-      const res = await axios.get(GITHUBREPOCONTENTS.replace('{owner}', 'AshwinSM').replace('{repo}',repo), {
+    let access_token = await getAccessToken();
+    console.log(access_token);
+    console.log("Getting repo "+repo);
+    console.log("URL : "+GITHUBREPOCONTENTS.replace('{owner}', 'AshwinSM').replace('{repo}',repo));
+    const res = await axios.get(GITHUBREPOCONTENTS.replace('{owner}', 'AshwinSM').replace('{repo}',repo), {
             headers: {
-                Authorization: TOKEN + data.access_token
+                Authorization: TOKEN + access_token
+                // Authorization: TOKEN + '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',
             },
-      })});
+      });
+      console.log("After Getting Repo");
       mainDirInfo = res.data;
+      console.log("Main Dir Info : "+mainDirInfo);
       if(!availableDirectories[repo]){
         availableDirectories[repo] = [];
         availableDirectories[repo].push("/");
       }
+      // alert("main Dir"+availableDirectories);
       if(mainDirInfo) {
         for(var dirContent of mainDirInfo){
           if(dirContent.type === 'dir'){
-              console.log(dirContent.name);
-              chrome.storage.sync.get(["access_token"],(data)=>{
+              // alert(dirContent.name);
               const nestedRes = await axios.get(dirContent.git_url+"?recursive=1", {
                   headers: {
-                    Authorization: TOKEN + data.access_token
+                    Authorization: TOKEN + access_token
+                    // Authorization: TOKEN + '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',
                   },
-              })});
+              });
               const allDirectories = nestedRes.data.tree;
               allDirectories.forEach(function(subDir){
                 if(subDir.type === 'tree')
@@ -70,12 +77,19 @@ const getDirectories = async function(repo) {
 
 const getRepos = async getRepos => {
     try {
-      chrome.storage.sync.get(["access_token"],(data)=>{
+      let access_token = await getAccessToken();
+      // await chrome.storage.sync.get("access_token", function (value) {
+      //   access_token = value.access_token;
+      //   console.log(value.access_token);
+      // });
+
+      console.log(access_token);
       const res = await axios.get(GITHUBREPO, {
             headers: {
-                Authorization: TOKEN + data.access_token
+                Authorization: TOKEN + access_token
+                // Authorization: TOKEN + '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',
             },
-        })});
+        });
       const allRepInfo = res.data;
       allRepInfo.forEach(function(repoInfo){
         if(repoInfo.permissions.admin === true){
@@ -120,11 +134,12 @@ const changeRepo = async changeRepo => {
 
 const constructOptions = (dataArr, parent, innerText) => {
   parent.innerHTML = "";
-  const defOptEl = document.createElement('option');
-  defOptEl.setAttribute("disabled",true);
-  defOptEl.setAttribute("selected",true);
-  defOptEl.innerText = "Select your "+innerText;
-  parent.appendChild(defOptEl);
+  // const defOptEl = document.createElement('option');
+  // defOptEl.setAttribute("disabled",true);
+  // defOptEl.setAttribute("selected",true);
+  // defOptEl.innerText = "Select your "+innerText;
+  // parent.appendChild(defOptEl);
+  console.log(dataArr);
   for(var data of dataArr) {
       const optEl = document.createElement('option');
       optEl.innerText = data;
@@ -140,8 +155,11 @@ const initSetup = async initSetup => {
 }
 
 const logout = () => {
-  chrome.storage.sync.set({"access_token":null},(data)=>{
-    console.log(data);
+  chrome.storage.sync.remove("access_token",()=>{
+    chrome.browserAction.setPopup({
+      popup: "signInPage.html",
+    });
+    window.location.href = window.location.href.replace("homePage.html", "signInPage.html");
   });
   console.log("Logged out");
 }
@@ -157,13 +175,14 @@ async function commitFile () {
   }
   
   try{
+    let access_token = await getAccessToken();
+    console.log(access_token);
     const reqBody = existingSHA ?  { message : 'Commit by Git Push', content : window.btoa(content), sha : existingSHA } : { message : 'Commit by Git Push', content : window.btoa(content) };
-    chrome.storage.sync.get(["access_token"],(data)=>{
     const res = await axios.put(GITHUBCOMMITFILE.replace('{owner}',owner).replace('{repo}', repo).replace('{path}',path), reqBody ,{
         headers: {
-                Authorization: TOKEN + data.access_token
+                Authorization: TOKEN + access_token
+                // Authorization: TOKEN + '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',
         },
-      })
     });
     sha[path] = res.data.content.sha;
 
@@ -174,13 +193,12 @@ async function commitFile () {
         if(error.response.status === 422 && code != 1){
           code++;
           const url = error.response.config.url;
-          chrome.storage.sync.get(["access_token"],(data)=>{
           const nestedRes = await axios.get(url,{
             headers: {
-              Authorization: TOKEN + data.access_token,
-              // Authorization: TOKEN + 'dd15d2e37545f830da5d4969f6085980cef20767',
+              Authorization: TOKEN + access_token,
+              // Authorization: TOKEN + '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',
             },
-          })});
+          });
           console.log(nestedRes);
           sha[path] = nestedRes.data.sha;debugger;
           await commitFile();
@@ -189,6 +207,18 @@ async function commitFile () {
         console.log(nestedError);
       }
   }
+}
+
+async function getAccessToken() {
+  var p = new Promise(function(resolve, reject){
+      chrome.storage.sync.get("access_token", function(options){
+          resolve(options.access_token);
+      })
+  });
+
+  const configOut = await p;
+  console.log(configOut);
+  return configOut;
 }
 
 const getValue = (id) => {
