@@ -10,16 +10,9 @@ const CALLBACK_URL = 'https://github.com/login/oauth/access_token';
 const scope = "repo user";
 const codeVSAccessTokenMap = {};
 
-app.get('/', (request, response)=>{
-    response.sendFile('Client/signInPage.html' , { root : __dirname});
-})
-
-app.get('/home', (request, response)=>{
-    console.log("Inside Homee");
-    response.sendFile('Client/homePage.html' , { root : __dirname});
-})
 
 app.get('/getToken', (request, response)=>{
+    console.log("Inside GetToken");
     const {code} = request.query;
     const access_token = codeVSAccessTokenMap[code];
     delete codeVSAccessTokenMap[code];
@@ -48,10 +41,10 @@ app.get('/user/callback', (request, response, next)=>{
             const data = result.body;
             codeVSAccessTokenMap[code] = data.access_token;
             console.log(data);
-            console.log(codeVSAccessTokenMap);
+            console.log(codeVSAccessTokenMap); 
             response.send("Redirecting to GitPush chrome extension");
         });
-})
+    })
 
 app.get('/getDirectories',(request, response, next) => {
     superagent
@@ -73,7 +66,20 @@ app.get('/user', (request, response, next) => {
 });
 
 
-//Get CSS and JS
+//Get HTML CSS and JS
+app.get('/', (request, response)=>{
+    response.sendFile('Client/signInPage.html' , { root : __dirname});
+})
+
+app.get('/signInPage', (request, response)=>{
+    response.sendFile('Client/signInPage.html' , { root : __dirname});
+})
+
+app.get('/home', (request, response)=>{
+    console.log("Inside Homee");
+    response.sendFile('Client/homePage.html' , { root : __dirname});
+})
+
 app.get('/homePage.js', (request, response)=>{
     response.sendFile('Client/homePage.js' , { root : __dirname});
 })

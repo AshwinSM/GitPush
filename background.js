@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.browserAction.onClicked.addListener(function() {
   chrome.storage.sync.get(["access_token"],(data)=>{
+    alert("Access Token : "+data.access_token);
     console.log(data.access_token);
     if(data.access_token && data.access_token !== null) {
       chrome.browserAction.setPopup({popup: 'Client/homePage.html'});
@@ -20,6 +21,7 @@ chrome.runtime.onMessage.addListener((req, sender, callback) => {
   if (req.type == "fetch-token") {
     const code = req.params.code;
     if (code) {
+      alert("Inside Fetch-Token");
       // axios.post(`http://localhost:3000/getToken`, null, { params: {
       //   code
       // }})
@@ -32,8 +34,9 @@ chrome.runtime.onMessage.addListener((req, sender, callback) => {
                   console.log("Access : "+access_token);
             });
             chrome.storage.sync.get(["access_token"],(data)=>{
-              console.log("Data : "+data.access_token);
-            })
+              alert("Data : "+data);
+            });
+            alert("Got Token  : "+access_token);
           window.location.href="http://localhost:3000/home";
           })
           .catch((error) => {
