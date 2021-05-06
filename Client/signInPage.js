@@ -4,17 +4,17 @@
 const LOGINURL = "http://localhost:3000/login";
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    // chrome.storage.sync.get(["gitspeedUser"], (user) => {
-      // if (user && user.gitspeedUser) {
-        // chrome.browserAction.setPopup({
-        //   popup: "home.html",
-        // });
-        // window.location.href = window.location.href.replace(
-        //   "login.html",
-        //   "home.html"
-        // );
-      // }
-    // });
+    chrome.storage.sync.get("access_token", (data) => {
+      if (data && data.access_token) {
+        chrome.browserAction.setPopup({
+          popup: "homePage.html",
+        });
+        window.location.href = window.location.href.replace(
+          "signInPage.html",
+          "homePage.html"
+        );
+      }
+    });
 
     const signInButtonEl = document.getElementById("signInButton");
     signInButtonEl.addEventListener("click", signIn);
