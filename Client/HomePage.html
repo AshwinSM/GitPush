@@ -2,37 +2,68 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-        <!-- <script type="module" src="./node_modules/axioss/dist/axios.min.js"></script> -->
         <script type="text/javascript" src="/axios.min.js"></script>
         <script type="text/javascript"  src="./homePage.js" ></script>
+        <script type="text/javascript"  src="/jquery-3.6.0.min.js" ></script>
         <link rel="stylesheet" href="./homePage.css">
+        <script type="text/javascript" src="/Semantic-UI-CSS-master/semantic.min.js"></script>
+        <link rel="stylesheet"  href="/Semantic-UI-CSS-master/semantic.min.css">
       </head>
       <body>
-<div>
-    <h1>Git Push!!!!</h1>
-    <!-- <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"><button>Signin to git</button></a> -->
-    <div style="visibility: hidden;" id="token"></div>
-    <label>Select a Repo</label>
-    <select id = "repos" class="selectClass" ></select>
+<div id="topDiv">
+    
+    <form class="ui form">
+        <h2 class="ui dividing header custHeader">GITPUSH</h2>
+        <!-- <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"><button>Signin to git</button></a> -->
+        <div style="display:none;visibility: hidden;" id="token"></div>
+        <div id="message"></div>
+        <div id="content" style="position: relative;top:-15px;">
+        <h4 class="ui horizontal divider header"></h4>
+        <div class="ui sub header">Select a Repo</div>
+        <select id = "repos" class="ui select dropdown"></select>
+        <!-- <select id = "repos" class="selectClass" ></select> -->
 
-    <label class="labelClass">Select a Directory</label>
-    <select id = "directories"  class="selectClass"></select>
+        <div class="ui sub header">Select a Directory</div>
+        <select id = "directories"  class="ui select dropdown"></select>  
 
-    <label class="labelClass">Absolute Path</label><br>
-    <input id="commitPath" disabled="true" value=""></input>
+        <!-- <label class="labelClass">Select a Directory</label> -->
+        <!-- <select id = "directories"  class="selectClass"></select> -->
 
-    <label class="labelClass">Filename</label><br>
-    <input id = "fileName" value=""></input>
+        <!-- <div class="fields"> -->
+            <!-- <div class="eight wide field selectClass"> -->
+                <div class="ui sub header">Absolute Path</div>
+                <input type="text"  id="commitPath" disabled="true"  placeholder="Absolute Path">
+            <!-- </div> -->
 
-    <br><br>
-    <br><label>Contents</label><br>
-    <textarea id = "content"></textarea>
+            
+        <!-- </div> -->
+            <!-- <div class="eight wide field selectClass"> -->
+                <div class="ui sub header">Filename</div>
+                <input type="text"  id = "fileName" value="" placeholder="Filename">
+            <!-- </div> -->
+        <!-- <label class="labelClass">Absolute Path</label><br>
+        <input id="commitPath" disabled="true" value=""></input>
 
-    <br><br><button id="commitBtn" onclick='commitFile()'>Git Commit</button> <br>
+        <label class="labelClass">Filename</label><br>
+        <input id = "fileName" value=""></input> -->
 
-    <!-- <br><button id="" onclick='getDirectories()'>Click</button>  -->
-    <button id="logout">logout</button> 
+        <!-- <br><br>
+        <br><label>Contents</label><br>
+        <textarea id = "content"></textarea> -->
+        <div class="ui sub header">Contents</div>
+        <textarea class="selectClass" id ="content" placeholder="Place your content here"></textarea>
+
+        <br>
+        <div style="text-align: center;">
+            <button id="commitBtn" class="ui primary button" >Git Commit</button>
+            <button id="logout" class="ui secondary button">logout</button>
+        </div>
+        </div>
+        <!-- <br><br><button id="commitBtn" onclick='commitFile()'>Git Commit</button> <br> -->
+
+        <!-- <br><button id="" onclick='getDirectories()'>Click</button>  -->
+        <!-- <button id="logout">logout</button>  -->
+    </form>
 </div>
 </body>
 </html>

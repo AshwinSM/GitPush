@@ -26,18 +26,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const dirEl = document.getElementById("directories");
   dirEl.addEventListener("change", populateCommitPath);
 
+  initSetup();
 })
 
 const getDirectories = async function(repo) {
   try {
     let access_token = await getAccessToken();
-    console.log(access_token);
-    console.log("Getting repo "+repo);
-    console.log("URL : "+GITHUBREPOCONTENTS.replace('{owner}', 'AshwinSM').replace('{repo}',repo));
     const res = await axios.get(GITHUBREPOCONTENTS.replace('{owner}', 'AshwinSM').replace('{repo}',repo), {
             headers: {
                 Authorization: TOKEN + access_token
-                // Authorization: TOKEN + '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',
             },
       });
       console.log("After Getting Repo");
@@ -47,15 +44,12 @@ const getDirectories = async function(repo) {
         availableDirectories[repo] = [];
         availableDirectories[repo].push("/");
       }
-      // alert("main Dir"+availableDirectories);
       if(mainDirInfo) {
         for(var dirContent of mainDirInfo){
           if(dirContent.type === 'dir'){
-              // alert(dirContent.name);
               const nestedRes = await axios.get(dirContent.git_url+"?recursive=1", {
                   headers: {
                     Authorization: TOKEN + access_token
-                    // Authorization: TOKEN + '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',
                   },
               });
               const allDirectories = nestedRes.data.tree;
@@ -87,7 +81,6 @@ const getRepos = async getRepos => {
       const res = await axios.get(GITHUBREPO, {
             headers: {
                 Authorization: TOKEN + access_token
-                // Authorization: TOKEN + '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',
             },
         });
       const allRepInfo = res.data;
@@ -123,12 +116,15 @@ const populateDirectories = async function(currentRepo) {
 const populateCommitPath = () => {
   const repoEl = document.getElementById('repos').value;
   const directoriesEl = document.getElementById('directories').value;
-  document.getElementById('commitPath').value = repoEl + ' :' + directoriesEl;
+  const pathEl = document.getElementById('commitPath');
+  const pathValue = repoEl + ' :' + directoriesEl;
+  pathEl.value = pathValue;
+  pathEl.setAttribute("tip", pathValue);
+  pathEl
 }
 
 const changeRepo = async changeRepo => {
   const currentSelectedRepo = getValue('repos');
-  console.log(currentSelectedRepo);
   await populateDirectories(currentSelectedRepo);
 }
 
@@ -150,21 +146,23 @@ const constructOptions = (dataArr, parent, innerText) => {
 const initSetup = async initSetup => {
   await populateRepos();
   const currentSelectedRepo = document.getElementById('repos').value;
-  console.log(currentSelectedRepo);
   await populateDirectories(currentSelectedRepo);
 }
 
 const logout = () => {
   chrome.storage.sync.remove("access_token",()=>{
     chrome.browserAction.setPopup({
-      popup: "signInPage.html",
+      popup: "Client/signInPage.html",
     });
     window.location.href = window.location.href.replace("homePage.html", "signInPage.html");
   });
   console.log("Logged out");
 }
 
-async function commitFile () {
+async function commitFile (e) {
+  if(e){
+  e.preventDefault();
+  }
   const fileName = getValue('fileName');
   const path = getValue('directories').substring(1, getValue('directories').length) +fileName;
   const repo = getValue('repos');
@@ -181,22 +179,21 @@ async function commitFile () {
     const res = await axios.put(GITHUBCOMMITFILE.replace('{owner}',owner).replace('{repo}', repo).replace('{path}',path), reqBody ,{
         headers: {
                 Authorization: TOKEN + access_token
-                // Authorization: TOKEN + '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',
         },
     });
     sha[path] = res.data.content.sha;
-
+    res.status === 200 || res.status === 201 ? notifyMessage(true) : notifyMessage(false);
     console.log("Committed a File");
   }catch(error){
       console.log(error);
       try{
         if(error.response.status === 422 && code != 1){
           code++;
+          let access_token = await getAccessToken();
           const url = error.response.config.url;
           const nestedRes = await axios.get(url,{
             headers: {
-              Authorization: TOKEN + access_token,
-              // Authorization: TOKEN + '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',
+              Authorization: TOKEN + access_token
             },
           });
           console.log(nestedRes);
@@ -225,4 +222,19 @@ const getValue = (id) => {
   return document.getElementById(id).value;
 }
 
-window.addEventListener('load', initSetup);
+const notifyMessage = (isSuccess) => {
+  const divClassName = isSuccess ? "ui positive message" : "ui negative message";
+  const displayMsg = isSuccess ? "Committed Successfully" : "Error in Commit";
+  const divEl1 = document.createElement("div");
+  divEl1.className = divClassName;
+  
+  const iEl2 = document.createElement("i");
+  iEl2.className = "close icon";
+  divEl1.appendChild(iEl2);
+  const divEl3 = document.createElement("div");
+  divEl3.className = "header";
+  divEl3.innerText = displayMsg;
+  iEl2.appendChild(divEl3);
+  const msgEl = document.getElementById("message");
+  msgEl.appendChild(divEl1);
+}

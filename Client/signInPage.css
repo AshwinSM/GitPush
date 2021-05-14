@@ -18,3 +18,43 @@
     width: 300px; 
     height: 400px;
 }
+
+
+/*.signInHeader {
+    height : 50%;
+    width : 50%;
+}
+.signInButtonImg {
+    height : 10%;
+    width : 20%;
+}
+.signInButton {
+    background-color : black;
+    color: white;
+    text-align: center;
+}
+.outerWidth{
+    width: 300px; 
+    height: 400px;
+}*/
+.form {
+    
+}
+.custHeader {
+overflow: hidden;
+text-align: center;
+background-color: #f1f1f1;
+line-height: 2.285714em !important;
+height: 50px;
+}
+
+#dlkfne {
+margin-left: 1%;
+ margin-top: 1%;
+width: 30%;
+background: #1b1c1d;
+}
+
+#buttonDiv {
+text-align: center;
+}

@@ -1,10 +1,39 @@
 .selectClass {
     width: 250px;
-    height: 25px;
+    height: 100px !important;
     display: block;
 }
 
 .labelClass {
     display: block;
     margin-top: 10px;
+}
+
+
+.selectClass {
+    width: 250px;
+    height: 35px;
+    display: block;
+}
+
+.labelClass {
+    display: block;
+    margin-top: 10px;
+}
+
+.form {
+    margin-top: -10px;
+}
+
+.custHeader {
+	overflow: hidden;
+	text-align: center;
+  	background-color: #f1f1f1;
+  	line-height: 2.285714em !important;
+}
+
+#topDiv {
+	margin-left: 5%;
+    margin-top: 1%;
+    width: 90%;
 }

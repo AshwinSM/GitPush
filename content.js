@@ -1,5 +1,3 @@
-// var url = window.location.href;
-console.log("Content : ");
 var url = new URL(window.location.href);
 const code = url.searchParams.get("code");
 
@@ -11,6 +9,6 @@ if (code) {
         code: code
       },
     }, () => {
-      setTimeout(window.close, 2000);
+      setTimeout(window.close, 1000);
     });
 }

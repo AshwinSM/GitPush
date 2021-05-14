@@ -107,5 +107,12 @@ app.get('*/octocat.png', (request, response)=>{
 app.get('*/githubIcon.png', (request, response)=>{
     response.sendFile('Images/githubIcon.png' , { root : __dirname});
 })
+app.get('*/semantic.min.js', (request, response)=>{
+    response.sendFile('Semantic-UI-CSS-master/semantic.min.js' , { root : __dirname});
+})
+
+app.get('*/semantic.min.css', (request, response)=>{
+    response.sendFile('Semantic-UI-CSS-master/semantic.min.css' , { root : __dirname});
+})
 
 app.listen(port);

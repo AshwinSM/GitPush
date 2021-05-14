@@ -8,17 +8,37 @@
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://unpkg.com/axios/dist/axios.min.js">
         <script type="text/javascript"  src="./signInPage.js" ></script>
         <link rel="stylesheet" href="./signInPage.css">
+        <script type="text/javascript"  src="/jquery-3.6.0.min.js" ></script>
+
+        <script type="text/javascript" src="/Semantic-UI-CSS-master/semantic.min.js"></script>
+        <link rel="stylesheet"  href="/Semantic-UI-CSS-master/semantic.min.css">
     </head>
     <body>
-        <div class="outerWidth">
+        <div class="">
         <header>
-            <img src="./../Images/logo.png" class="signInHeader"/> 
+            <!-- <img style="position: relative;left:-30px" src="./../Images/logo.png" class="signInHeader"/> -->
+            <h2 class="ui dividing header custHeader">GITPUSH</h2>
         </header>
         <div>
             <!-- <button class="signInButton" onclick="signIn()"> <img src="githubIcon.png" class="signInButtonImg" /><span>SignIn With GitHub</span></button> -->
-            <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button id="signInButton" class="signInButton"><span>SignIn With GitHub</span></button></a>
+            <!-- <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button id="signInButton" class="signInButton"><span>SignIn With GitHub</span></button></a> -->
             <!-- <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button class="signInButton" > <img src="./../Images/githubIcon.png" class="signInButtonImg" /><span>SignIn With GitHub</span></button></a> -->
         </div>
+
+        <!-- <div id="dlkfne"> -->
+            
+            <div class="ui form">
+                <!-- <h2 class="ui dividing header custHeader">Git Push!!!</h2> -->
+                <!-- <h4 class="ui horizontal divider header"></h4> -->
+        
+                <!-- <button id="logout" class="ui secondary button"> <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"><span>SignIn With GitHub</span></a></button> -->
+                <div id="buttonDiv" style="text-align: center;">
+                    <a href="https://github.com/login/oauth/authorize?client_id=c0c3936b4710adcf7f2b&scope=repo user"> <button id="signInButton" class="ui secondary button"><span>Login With GitHub</span></button></a>
+                     <!-- <button id="login" class="ui green button" >Login with  <img src="github-octocat.png" width="40" height="25"></button>  -->
+                </div> 
+            </div>
+        <!-- </div> -->
+
         <footer></footer>
         </div>
     </body>
