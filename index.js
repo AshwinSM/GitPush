@@ -96,6 +96,14 @@ app.get('/signInPage.css', (request, response)=>{
     response.sendFile('Client/signInPage.css' , { root : __dirname});
 })
 
+app.get('/bootstrap.min.js', (request, response)=>{
+    response.sendFile('bootstrap.min.js' , { root : __dirname});
+})
+
+app.get('/bootstrap.min.css', (request, response)=>{
+    response.sendFile('bootstrap.min.css' , { root : __dirname});
+})
+
 app.get('/axios.min.js', (request, response)=>{
     response.sendFile('axios.min.js' , { root : __dirname});
 })
